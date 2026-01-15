@@ -1,5 +1,5 @@
 const { verify } = require("../util/jwt");
-const { User, Role, Avatar, Premium } = require("../models");
+const { User, Avatar, Premium } = require("../models");
 const ErrorResponse = require("../util/errorResponse");
 
 exports.protect = async (req, res, next) => {
@@ -17,7 +17,6 @@ exports.protect = async (req, res, next) => {
       attributes: { exclude: ["password"] },
       where: { email: userVerified.email },
       include: [
-        { model: Role, as: "role" },
         { model: Avatar, as: "avatar" },
         { model: Premium, as: "premium" },
       ],

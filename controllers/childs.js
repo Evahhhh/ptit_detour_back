@@ -39,14 +39,14 @@ exports.getChild = asyncHandler(async (req, res, next) => {
 // @route   POST /childs
 // @access  Private
 exports.createChild = asyncHandler(async (req, res, next) => {
-    const { name, avatar_id, birth_date, energetic, scientific, focused, creative } = req.body;
+    const { name, avatar_id, birthdate, energetic, scientific, focused, creative } = req.body;
 
     // The user_id is taken from the authenticated user
     const child = await Child.create({
         user_id: req.user.id,
         name,
         avatar_id,
-        birth_date,
+        birthdate,
         energetic,
         scientific,
         focused,
@@ -74,12 +74,12 @@ exports.updateChild = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`Child not found with id of ${req.params.id}`, 404));
     }
 
-    const { name, avatar_id, birth_date, energetic, scientific, focused, creative } = req.body;
+    const { name, avatar_id, birthdate, energetic, scientific, focused, creative } = req.body;
 
     await child.update({
         name,
         avatar_id,
-        birth_date,
+        birthdate,
         energetic,
         scientific,
         focused,

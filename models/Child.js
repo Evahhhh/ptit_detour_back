@@ -23,7 +23,7 @@ const Child = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    birth_date: {
+    birthdate: {
         type: DataTypes.DATEONLY,
         allowNull: false,
     },

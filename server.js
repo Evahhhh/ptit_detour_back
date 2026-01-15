@@ -45,8 +45,6 @@ app.use(errorHandler);
 const sync = async () => await db.sequelize.sync({ force: true });
 sync().then(async () => {
     try {
-      const roleUser = await db.Role.create({ name: 'user' });
-      const roleAdmin = await db.Role.create({ name: 'admin' });
       const avatar = await db.Avatar.create({ url: '/avatars/default.png' });
       const premium = await db.Premium.create({
           name: 'free',
@@ -61,7 +59,7 @@ sync().then(async () => {
         email: "test@test.com",
         password: "123456",
         name: "neo",
-        role_id: roleUser.id,
+        role_id: 1,
         avatar_id: avatar.id,
         premium_id: premium.id
       });
@@ -69,7 +67,7 @@ sync().then(async () => {
         email: "test+admin@test.com",
         password: "123456",
         name: "celeb_neo",
-        role_id: roleAdmin.id,
+        role_id: 0,
         avatar_id: avatar.id,
         premium_id: premium.id
       });

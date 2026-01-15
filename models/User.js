@@ -13,7 +13,7 @@ const User = sequelize.define(
       unsigned: true,
     },
     role_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.BIGINT,   //0: user, 1: admin, 2: editor
       allowNull: true,
     },
     avatar_id: {
@@ -25,7 +25,7 @@ const User = sequelize.define(
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(320),
       allowNull: true,
       unique: true,
     },

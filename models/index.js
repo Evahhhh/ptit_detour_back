@@ -8,15 +8,12 @@ const ActivityStep = require("./ActivityStep");
 const Premium = require("./Premium");
 const Progress = require("./Progress");
 const Child = require("./Child");
-const Role = require("./Role");
 const ChildProgress = require("./ChildProgress");
 const Payment = require("./Payment");
-const ProgressStatus = require("./ProgressStatus");
 const Category = require("./Category");
 
 // User associations
 User.belongsTo(Avatar, { foreignKey: 'avatar_id', as: 'avatar' });
-User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
 User.belongsTo(Premium, { foreignKey: 'premium_id', as: 'premium' });
 User.hasMany(Child, { foreignKey: 'user_id', as: 'children' });
 User.hasMany(Payment, { foreignKey: 'user_id', as: 'payments' });
@@ -43,7 +40,6 @@ Image.belongsTo(ActivityStep, { foreignKey: 'activity_step_id', as: 'step' });
 
 // Progress associations
 Progress.belongsTo(ActivityStep, { foreignKey: 'activity_step_id', as: 'step' });
-Progress.belongsTo(ProgressStatus, { foreignKey: 'progress_status_id', as: 'status' });
 Progress.belongsToMany(Child, { through: ChildProgress, foreignKey: 'progress_id', as: 'children' });
 
 // Payment associations
@@ -54,9 +50,6 @@ Payment.belongsTo(Premium, { foreignKey: 'premium_id', as: 'premium' });
 Avatar.hasOne(User, { foreignKey: 'avatar_id', as: 'user' });
 Avatar.hasOne(Child, { foreignKey: 'avatar_id', as: 'child' });
 
-// Role associations
-Role.hasMany(User, { foreignKey: 'role_id', as: 'users' });
-
 // Premium associations
 Premium.hasMany(User, { foreignKey: 'premium_id', as: 'users' });
 Premium.hasMany(Activity, { foreignKey: 'premium_id', as: 'activities' });
@@ -64,10 +57,6 @@ Premium.hasMany(Payment, { foreignKey: 'premium_id', as: 'payments' });
 
 // Category associations
 Category.hasMany(Activity, { foreignKey: 'category_id', as: 'activities' });
-
-// ProgressStatus associations
-ProgressStatus.hasMany(Progress, { foreignKey: 'progress_status_id', as: 'progress' });
-
 
 const db = {
     sequelize,
@@ -79,10 +68,8 @@ const db = {
     Premium,
     Progress,
     Child,
-    Role,
     ChildProgress,
     Payment,
-    ProgressStatus,
     Category
 };
 
