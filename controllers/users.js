@@ -77,20 +77,36 @@ module.exports.getCurrentUser = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.updateUser = asyncHandler(async (req, res, next) => {
-  await User.update(req.body.user, {
-    where: {
-      id: req.loggedUser.id,
-    },
+  const user = await User.findByPk(req.loggedUser.id);
+
+  if (!user) {
+    return next(new ErrorResponse("User not found", 404));
+  }
+
+  const allowedFields = ["name", "email", "avatar_id", "premium_id"];
+  const updates = req.body.user || {};
+
+  allowedFields.forEach((field) => {
+    if (updates[field] !== undefined) {
+      user[field] = updates[field];
+    }
   });
 
-  const user = await User.findByPk(req.loggedUser.id);
-  user.dataValues.token = req.headers.authorization.split(" ")[1];
+  await user.save();
 
-  res.status(200).json({ user });
+  res.status(200).json({
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatar_id: user.avatar_id,
+      premium_id: user.premium_id
+    }
+  });
 });
 
 const fieldValidation = (field, next) => {
-  if (!field) {
+  if (!field && field !== 0) {
     return next(new ErrorResponse(`Missing fields`, 400));
   }
 };

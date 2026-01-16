@@ -12,11 +12,14 @@ const { protect } = require('../middlewares/auth');
 
 router
   .route('/childs')
-  .get(protect, getChildren)
+  .get(protect, getChildren);
+
+router
+  .route('/child')
   .post(protect, createChild);
 
 router
-  .route('/childs/:id')
+  .route('/child/:id')
   .get(protect, getChild)
   .put(protect, updateChild)
   .delete(protect, deleteChild);

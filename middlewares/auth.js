@@ -4,29 +4,25 @@ const ErrorResponse = require("../util/errorResponse");
 
 exports.protect = async (req, res, next) => {
   try {
-    const { headers } = req;
-    if (!headers.authorization) return next();
-
-    const token = headers.authorization.split(" ")[1];
-    if (!token) throw new SyntaxError("Token missing or malformed");
-
-    const userVerified = await verify(token);
-    if (!userVerified) throw new Error("Invalid Token");
-
-    req.loggedUser = await User.findOne({
-      attributes: { exclude: ["password"] },
-      where: { email: userVerified.email },
-      include: [
-        { model: Avatar, as: "avatar" },
-        { model: Premium, as: "premium" },
-      ],
-    });
-
-    if (!req.loggedUser) {
-      return next(new ErrorResponse("User not found", 404));
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return next(new ErrorResponse("Not authorized", 401));
     }
 
-    req.loggedUser.dataValues.token = token;
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return next(new ErrorResponse("Token missing", 401));
+    }
+
+    const userVerified = await verify(token);
+    if (!userVerified) {
+      return next(new ErrorResponse("Invalid token", 401));
+    }
+
+    req.loggedUser = {
+      id: userVerified.id,
+      email: userVerified.email
+    };
 
     next();
   } catch (error) {

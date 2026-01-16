@@ -37,16 +37,6 @@ const User = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    created_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    },
-    updated_at: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    }
   },
   {
     timestamps: true,
@@ -70,6 +60,15 @@ User.addHook("beforeCreate", async (user) => {
       DEFAULT_SALT_ROUNDS
     );
     user.password = encryptedPassword;
+  }
+});
+
+User.addHook("beforeUpdate", async (user) => {
+  if (user.changed("password")) {
+    user.password = await bcrypt.hash(
+      user.password,
+      DEFAULT_SALT_ROUNDS
+    );
   }
 });
 

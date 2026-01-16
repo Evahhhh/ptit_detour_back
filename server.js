@@ -33,10 +33,12 @@ app.use((req, res, next) => {
 // Route files
 const users = require("./routes/users");
 const childs = require("./routes/childs");
+const avatars = require("./routes/avatars");
 
 // Mount routers
 app.use(users);
 app.use(childs);
+app.use(avatars);
 
 const PORT = process.env.PORT || 8081;
 

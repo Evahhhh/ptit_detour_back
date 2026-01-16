@@ -6,7 +6,7 @@ const { Child, User } = require('../models');
 // @route   GET /childs
 // @access  Private
 exports.getChildren = asyncHandler(async (req, res, next) => {
-    const children = await Child.findAll({ where: { user_id: req.user.id } });
+    const children = await Child.findAll({ where: { user_id: req.loggedUser.id } });
 
     res.status(200).json({
         success: true,
@@ -21,7 +21,7 @@ exports.getChild = asyncHandler(async (req, res, next) => {
     const child = await Child.findOne({
         where: {
             id: req.params.id,
-            user_id: req.user.id
+            user_id: req.loggedUser.id
         }
     });
 
@@ -43,7 +43,7 @@ exports.createChild = asyncHandler(async (req, res, next) => {
 
     // The user_id is taken from the authenticated user
     const child = await Child.create({
-        user_id: req.user.id,
+        user_id: req.loggedUser.id,
         name,
         avatar_id,
         birthdate,
@@ -66,7 +66,7 @@ exports.updateChild = asyncHandler(async (req, res, next) => {
     let child = await Child.findOne({
         where: {
             id: req.params.id,
-            user_id: req.user.id
+            user_id: req.loggedUser.id
         }
     });
 
@@ -102,7 +102,7 @@ exports.deleteChild = asyncHandler(async (req, res, next) => {
     const child = await Child.findOne({
         where: {
             id: req.params.id,
-            user_id: req.user.id
+            user_id: req.loggedUser.id
         }
     });
 
