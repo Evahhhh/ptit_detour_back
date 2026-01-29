@@ -11,6 +11,18 @@ const ActivityStep = sequelize.define(
       primaryKey: true,
       unsigned: true,
     },
+    title: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    requirements: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
     activity_id: {
       type: DataTypes.BIGINT,
       allowNull: false,
