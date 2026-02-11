@@ -16,12 +16,12 @@ const Progress = sequelize.define(
       allowNull: false,
     },
     progress_status_id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.ENUM('0', '1', '99'),
       allowNull: false,
     },
     final_status_date: {
       type: DataTypes.DATE,
-      allowNull: false,
+      allowNull: true,
     },
   },
   { timestamps: false, tableName: 'Progress' }
